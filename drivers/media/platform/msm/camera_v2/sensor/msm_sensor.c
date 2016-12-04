@@ -581,10 +581,8 @@ int msm_sensor_match_id(struct msm_sensor_ctrl_t *s_ctrl)
 #ifndef LETV_SINGLE_MODULE_VENDOR
 	uint8_t camera_id = 0;
 	uint8_t module_id = 0;
-#ifdef CONFIG_PRODUCT_LE_ZL1
 	uint8_t vcm_id = 0;
 	uint8_t vcmid_otp_buf[MSM_OTP_REAR_CAMERA_VCM_ID_BUFF_SIZE];
-#endif
 	uint8_t moduleid_otp_buf[MSM_OTP_REAR_CAMERA_MODULE_ID_BUFF_SIZE];
 #endif
 	if (!s_ctrl) {
@@ -598,9 +596,7 @@ int msm_sensor_match_id(struct msm_sensor_ctrl_t *s_ctrl)
 #ifndef LETV_SINGLE_MODULE_VENDOR
 	camera_id = s_ctrl->sensordata->slave_info->camera_id;
 	module_id = s_ctrl->sensordata->slave_info->module_id;
-#ifdef CONFIG_PRODUCT_LE_ZL1
 	vcm_id = s_ctrl->sensordata->slave_info->vcm_id;
-#endif
 #endif
 	if (!sensor_i2c_client || !slave_info || !sensor_name) {
 		pr_err("[CAM-0x1801]%s:%d failed: %p %p %p\n",
@@ -647,7 +643,6 @@ int msm_sensor_match_id(struct msm_sensor_ctrl_t *s_ctrl)
 			pr_err("%s:Err rear camera module id doesn't match\n", __func__);
 			return -ENODEV;
 		}
-#ifdef CONFIG_PRODUCT_LE_ZL1
 		memset(vcmid_otp_buf, 0,
 			MSM_OTP_REAR_CAMERA_VCM_ID_BUFF_SIZE);
 		msm_get_otp_data(vcmid_otp_buf,
@@ -659,7 +654,6 @@ int msm_sensor_match_id(struct msm_sensor_ctrl_t *s_ctrl)
 			pr_err("%s:Err rear camera vcm id doesn't match\n", __func__);
 			return -ENODEV;
 		}
-#endif
 	} else {
 #ifndef LETV_SUPPORT_DESIGNED_SENSOR
 		if (strncmp("ov4688", sensor_name, 6) &&

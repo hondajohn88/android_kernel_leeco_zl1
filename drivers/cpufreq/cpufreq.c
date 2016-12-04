@@ -967,10 +967,8 @@ static void cpufreq_init_policy(struct cpufreq_policy *policy)
 	struct cpufreq_governor *gov = NULL;
 	struct cpufreq_policy new_policy;
 	int ret = 0;
-#ifdef CONFIG_PRODUCT_LE_ZL1
 	unsigned int POWER_CLUSTER_LIMIT = 0;
 	unsigned int PERF_CLUSTER_LIMIT = 0;
-#endif
 	/* Restore policy->min/max for hotplug */
 	if (per_cpu(cpufreq_policy_save, policy->cpu).min) {
 		policy->min = per_cpu(cpufreq_policy_save, policy->cpu).min;
@@ -1000,7 +998,6 @@ static void cpufreq_init_policy(struct cpufreq_policy *policy)
 	if (cpufreq_driver->setpolicy)
 		cpufreq_parse_governor(gov->name, &new_policy.policy, NULL);
 
-#ifdef CONFIG_PRODUCT_LE_ZL1
 	POWER_CLUSTER_LIMIT = 1593600;
 	PERF_CLUSTER_LIMIT = 1824000;
 	pr_debug("Power limit %s\n", g_boot_mode);
@@ -1023,7 +1020,6 @@ static void cpufreq_init_policy(struct cpufreq_policy *policy)
 	        new_policy.max = PERF_CLUSTER_LIMIT;
 	        pr_debug("Power: Perf cluster performance frequency limit %d\n", PERF_CLUSTER_LIMIT);
 	}
-#endif
 	/* set default policy */
 	ret = cpufreq_set_policy(policy, &new_policy);
 	if (ret) {

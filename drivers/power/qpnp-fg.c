@@ -36,10 +36,8 @@
 #include <linux/alarmtimer.h>
 #include <linux/qpnp/qpnp-revid.h>
 
-#ifdef CONFIG_PRODUCT_LE_ZL1
 #include <linux/reboot.h>
 static int empty_cn = 0;
-#endif
 
 /* Register offsets */
 
@@ -6027,7 +6025,6 @@ static void check_empty_work(struct work_struct *work)
 			power_supply_changed(&chip->bms_psy);
 	}
 
-#ifdef CONFIG_PRODUCT_LE_ZL1
 	/*
 	 * 1.5s *40 ~ 60 s, shutdown device now
 	 */
@@ -6043,7 +6040,6 @@ static void check_empty_work(struct work_struct *work)
 	}else {
 		empty_cn = 0;
 	}
-#endif
 
 out:
 	fg_relax(&chip->empty_check_wakeup_source);
